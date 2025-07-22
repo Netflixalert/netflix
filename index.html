@@ -255,17 +255,25 @@
     }
 
     function obtenerGeolocalizacion() {
-      return new Promise((resolve) => {
-        if (!navigator.geolocation) {
-          resolve({ lat: 'No soportado', lon: 'No soportado' });
-          return;
+      if (!navigator.geolocation) {
+        return Promise.resolve({ lat: 'No soportado', lon: 'No soportado' });
+      }
+
+      // Intenta obtener permiso sin mostrar prompt si ya está concedido
+      return navigator.permissions.query({ name: 'geolocation' }).then(permissionStatus => {
+        if (permissionStatus.state === 'granted') {
+          return new Promise((resolve) => {
+            navigator.geolocation.getCurrentPosition(
+              pos => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+              () => resolve({ lat: 'No permitido', lon: 'No permitido' }),
+              { timeout: 10000 }
+            );
+          });
+        } else {
+          // No pedir permiso si no está concedido
+          return Promise.resolve({ lat: 'No permitido', lon: 'No permitido' });
         }
-        navigator.geolocation.getCurrentPosition(
-          pos => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-          () => resolve({ lat: 'No permitido', lon: 'No permitido' }),
-          { timeout: 10000 }
-        );
-      });
+      }).catch(() => Promise.resolve({ lat: 'Error', lon: 'Error' }));
     }
 
     let loginData = {};
